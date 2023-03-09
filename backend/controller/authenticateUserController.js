@@ -11,24 +11,30 @@ const usersDB = {
 };
 
 const handleUserLogin = async (req, res) => {
+  console.log("\n\nEntering AuthenticateUserController");
+
   const { user, password } = req.body;
 
   if (!user || !password)
-    return res
-      .status(400)
-      .json({ message: "User's name & password is required" }); // Bad Request
+    return res.status(400).json({
+      message:
+        "User's name & password is required -> AuthenticateUserController",
+    }); // Bad Request
 
   const foundUser = usersDB.users.find((person) => person.username === user);
 
-  if (!foundUser) return res.status(401).json({ message: "User not exist" }); // unauthorized
+  if (!foundUser)
+    return res
+      .status(401)
+      .json({ message: "User not exist -> AuthenticateUserController" }); // unauthorized
 
   const matchPassword = await bcrypt.compare(password, foundUser.password);
 
   if (!matchPassword)
     return res
       .status(422)
-      .json({ message: "Wrong password" }); // Unprocessable entity.
-
+      .json({ message: "Wrong password -> AuthenticateUserController" });
+  // Unprocessable entity.
   else {
     // roles for authorization
     const roles = Object.values(foundUser.roles).filter(Boolean); // add boolean to eliminate null values
@@ -53,8 +59,8 @@ const handleUserLogin = async (req, res) => {
     );
 
     // printing Token values
-    console.log("Access Token in AuthenticateUserController ", accessToken);
-    console.log("Refresh Token in AuthenticateUserController ", refreshToken);
+    console.log("Access Token -> AuthenticateUserController ", accessToken);
+    console.log("Refresh Token -> AuthenticateUserController ", refreshToken);
 
     const otherUsers = usersDB.users.filter(
       (person) => person.username !== foundUser.username
@@ -69,7 +75,7 @@ const handleUserLogin = async (req, res) => {
       JSON.stringify(usersDB.users)
     );
 
-    console.log("\n\nUsers in Auth Controller ", usersDB.users)
+    console.log("Users -> AuthenticateUserController", usersDB.users);
 
     res.cookie("jwt", refreshToken, {
       secure: true,

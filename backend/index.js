@@ -33,6 +33,7 @@ app.use(morgan("common"));
 app.use("/refresh", require("./routes/refreshDir"));
 app.use("/register", require("./routes/registerDir"));
 app.use("/auth", require("./routes/authDir"));
+app.use("/logout", require("./routes/logoutDir"));
 app.use("/employees", require("./routes/employeeDir"));
 
 app.listen(PORT, () => {

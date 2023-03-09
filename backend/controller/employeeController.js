@@ -6,6 +6,8 @@ const userDB = {
 };
 
 const handleEmployeesInfo = async (req, res) => {
+  console.log("\n\nEntering EmployeeController");
+
   try {
     res.status(200).json(userDB.users);
   } catch (err) {

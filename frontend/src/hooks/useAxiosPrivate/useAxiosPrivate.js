@@ -10,11 +10,11 @@ const useAxiosPrivate = () => {
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        console.log(
-          "EXE => 2\n",
-          "Config Previous Auth value in useAxiosPrivate => ",
-          auth
-        );
+        // console.log(
+        //   "EXE => 2\n",
+        //   "Config Previous Auth value in useAxiosPrivate => ",
+        //   auth
+        // );
 
         // means it's running for the first time
         if (!config.headers[`Authorization`])
@@ -27,43 +27,43 @@ const useAxiosPrivate = () => {
 
     const responseIntercept = axiosPrivate.interceptors.response.use(
       (response) => {
-        console.log(
-          "EXE => 2\n",
-          "Response Previous Auth value in useAxiosPrivate => ",
-          auth
-        );
+        // console.log(
+        //   "EXE => 2\n",
+        //   "Response Previous Auth value in useAxiosPrivate => ",
+        //   auth
+        // );
         return response;
       },
       async (error) => {
-        console.log(
-          "EXE => 2\n",
-          "Error Previous Auth value in useAxiosPrivate => ",
-          auth
-        );
+        // console.log(
+        //   "EXE => 2\n",
+        //   "Error Previous Auth value in useAxiosPrivate => ",
+        //   auth
+        // );
 
-        console.log("EXE => 2\n", "Error in useAxiosPrivate => ", error);
+        // console.log("EXE => 2\n", "Error in useAxiosPrivate => ", error);
 
         const prevRequest = error?.config;
 
         if (error?.response?.status === 403 && !prevRequest?.sent) {
-          console.log(
-            "0 Error.Config.sent in useAxiosPrivate => ",
-            error?.config?.sent
-          );
+          // console.log(
+          //   "0 Error.Config.sent in useAxiosPrivate => ",
+          //   error?.config?.sent
+          // );
 
           prevRequest.sent = true;
 
-          console.log(
-            "1 Error.Config.sent in useAxiosPrivate => ",
-            error?.config?.sent
-          );
+          // console.log(
+          //   "1 Error.Config.sent in useAxiosPrivate => ",
+          //   error?.config?.sent
+          // );
 
           const newAccessToken = await refresh();
 
-          console.log(
-            "New AccessToken Assigned in Response Intercept in useAxiosPrivate",
-            newAccessToken
-          );
+          // console.log(
+          //   "New AccessToken Assigned in Response Intercept in useAxiosPrivate",
+          //   newAccessToken
+          // );
 
           prevRequest.headers[`Authorization`] = `Bearer ${newAccessToken}`;
 

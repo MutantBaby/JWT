@@ -1,6 +1,6 @@
+import { useSelector } from "react-redux";
 import { Box, Heading } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import useAxiosPrivate from "../hooks/useAxiosPrivate/useAxiosPrivate";

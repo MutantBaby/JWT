@@ -6,9 +6,19 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
+import useLogout from "../hooks/useLogout/useLogout";
 
 export default function Home() {
+  const logout = useLogout();
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    await logout();
+    navigate("/linkage");
+  };
+
   return (
     <Flex
       minH={"100vh"}
@@ -35,7 +45,7 @@ export default function Home() {
 
             <Stack spacing={10}>
               <Button
-                // onClick={handleLogin}
+                onClick={handleLogin}
                 bg={"red.400"}
                 color={"white"}
                 _hover={{

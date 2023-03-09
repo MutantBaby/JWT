@@ -5,12 +5,13 @@ import {
   Stack,
   Button,
   Heading,
+  Checkbox,
   FormLabel,
   FormControl,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { deSerilizer, serilizer } from "../../utils/utils";
@@ -24,11 +25,40 @@ export default function SimpleCard() {
   const [usernameChange, setUsernameChange] = useState("");
   const [passwordChange, setPasswordChange] = useState("");
 
+  const auth = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = location?.state?.from?.pathname || "/";
+
+  const handleCheckbox = () => {
+    console.log("Persist (Before) -> handleCheckbox -> Login", auth?.persist);
+
+    if (auth?.persist)
+      dispatch(
+        authContainer({
+          persist: false,
+        })
+      );
+    else
+      dispatch(
+        authContainer({
+          persist: true,
+        })
+      );
+
+    console.log("Persist (After) -> handleCheckbox -> Login", auth?.persist);
+  };
+
+  useEffect(() => {
+    console.log("Persist (Before) -> UseEffect -> Login", auth?.persist);
+
+    localStorage.setItem("persist", auth?.persist);
+
+    console.log("Persist (After) -> UseEffect -> Login", auth?.persist);
+  }, [auth?.persist]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -122,6 +152,13 @@ export default function SimpleCard() {
                 }}>
                 Submit
               </Button>
+
+              <Checkbox
+                id="persist"
+                isChecked={auth?.persist}
+                onChange={handleCheckbox}>
+                Trust this device
+              </Checkbox>
 
               <Link to={"/register"}>Go to SignUp</Link>
             </Stack>

@@ -7,13 +7,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useRefreshToken } from "../hooks/useRefreshToken/useRefreshToken";
 
 import User from "./User";
 
 export default function Admin() {
   const navigate = useNavigate();
-  useRefreshToken();
 
   return (
     <Flex

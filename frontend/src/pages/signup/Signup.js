@@ -33,16 +33,17 @@ export default function SimpleCard() {
     };
 
     try {
-      const response = await axios.post(registerURL, dataObj, {
+      // const response =
+      await axios.post(registerURL, dataObj, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-      const data = JSON.stringify(response, serilizer, 2);
-      const endResult = JSON.parse(data, deSerilizer, 2);
+      // const data = JSON.stringify(response, serilizer, 2);
+      // const endResult = JSON.parse(data, deSerilizer, 2);
 
-      console.log("Response in Login ==> ", response);
-      console.log("Data in Login ==> ", data);
-      console.log("endResult in Login ==> ", endResult);
+      // console.log("Response in Login ==> ", response);
+      // console.log("Data in Login ==> ", data);
+      // console.log("endResult in Login ==> ", endResult);
 
       navigate(`/auth`);
     } catch (err) {

@@ -9,13 +9,13 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const handleRefreshToken = async (req, res) => {
-  console.log("Im in refreshToken Controller");
+  console.log("\n\nEntering RefreshTokenController");
 
   const cookies = req?.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(401);
 
-  console.log("Cookies in Refresh Token Control ", cookies);
+  console.log("Cookies -> RefreshTokenController", cookies);
 
   const refreshToken = cookies.jwt;
 
@@ -24,21 +24,16 @@ const handleRefreshToken = async (req, res) => {
   );
 
   if (!foundUser)
-    return res.status(403).json({ message: "User refresh token not matched" }); // Forbidden
-
-    console.log("REFRESH_SECRET_TOKEN in refreshTokenCOntroller", process.env.REFRESH_SECRET_TOKEN);
+    return res
+      .status(403)
+      .json({ message: "User not matched -> RefreshTokenController" }); // Forbidden
 
   // evaluate jwt
   jwt.verify(refreshToken, process.env.REFRESH_SECRET_TOKEN, (err, decoded) => {
-    console.log("Entering in jwt.verify in refreshTokenController");
+    console.log("-> jwt.verify -> RefreshTokenController");
+
     if (err || foundUser?.username !== decoded?.username) {
-      console.log(
-        "Error in jwt.verify in refreshTokenController",
-        err,
-        "And",
-        foundUser?.username,
-        decoded?.username
-      );
+      console.log("Error -> jwt.verify -> RefreshTokenController", err);
       return res.sendStatus(403);
     }
 
@@ -56,11 +51,11 @@ const handleRefreshToken = async (req, res) => {
     );
 
     console.log(
-      "AccessToken recieved in jwt.verify in refreshTokenController",
+      "AccessToken -> jwt.verify -> RefreshTokenController",
       accessToken
     );
 
-    res.json({ accessToken });
+    res.json({ accessToken, roles });
   });
 };
 

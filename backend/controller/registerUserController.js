@@ -8,27 +8,28 @@ const usersDB = {
 }
 
 const handleNewUser = async (req, res) => {
+  console.log("\n\nEntering RegisterUserController");
   const { user, password } = req.body;
 
   if (!user || !password)
-    return res
-      .status(400)
-      .json({ "message": "User's name & password is required" }); // Bad Request
+    return res.status(400).json({
+      message: "User's name & password required -> RegisterUserController",
+    }); // Bad Request
 
   const deplicate = usersDB.users.find((person) => person.username === user);
 
   if (deplicate)
     return res
       .status(409)
-      .json({ "message": "User already exists" }); // conflict
+      .json({ message: "User exists -> RegisterUserController" }); // conflict
 
   try {
     const hashPassword = await bcrypt.hash(password, 15);
 
     const newUser = {
       username: user,
-      password: hashPassword
-    }
+      password: hashPassword,
+    };
 
     // appending data
     usersDB.setUsers([...usersDB.users, newUser]);
@@ -39,11 +40,12 @@ const handleNewUser = async (req, res) => {
       JSON.stringify(usersDB.users)
     );
 
-    console.log("UserDB in register => ", usersDB.users);
-    res.status(201).json({ "success": `New user ${user} is created` });
-
+    console.log("UserDB -> RegisterUserController => ", usersDB.users);
+    res.status(201).json({
+      success: `New user ${user} is created -> RegisterUserController`,
+    });
   } catch (err) {
-    res.status(500).json({ "message": err.message })
+    res.status(500).json({ message: err.message });
   }
 }
 
