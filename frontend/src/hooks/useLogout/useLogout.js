@@ -7,6 +7,7 @@ const logoutURL = `/logout`;
 
 const useLogout = () => {
   console.log("\n\nEntering UseLogout");
+
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -15,17 +16,26 @@ const useLogout = () => {
   const logout = async () => {
     console.log("logout -> UseLogout");
     console.log("Removing Auth -> Redux ->  logout -> UseLogout");
-    dispatch(authContainer({}));
+
+    dispatch(
+      authContainer({
+        user: "",
+        roles: [],
+        persist: false,
+        accessToken: "",
+      })
+    );
 
     try {
       console.log("Removing Auth -> API -> logout -> UseLogout");
+
       await axios.get(logoutURL, {
         withCredentials: true,
       });
 
       console.log("Auth (After) -> useLogout", auth);
     } catch (err) {
-      console.log("Error -> useLogout");
+      console.log("Error -> useLogout", err);
     }
   };
 

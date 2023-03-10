@@ -55,7 +55,7 @@ export default function SimpleCard() {
   useEffect(() => {
     console.log("Persist (Before) -> UseEffect -> Login", auth?.persist);
 
-    localStorage.setItem("persist", auth?.persist);
+    localStorage.setItem("persist", `${auth?.persist}`);
 
     console.log("Persist (After) -> UseEffect -> Login", auth?.persist);
   }, [auth?.persist]);
